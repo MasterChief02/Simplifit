@@ -27,9 +27,9 @@ const Login = () => {
 
   return (
     <div className="login-wrapper">
-      <header className="login-header">SimpliFit</header>
+      <header className="login-header">SimpliFit: it's Simple to be Fit</header>
       <Container fluid className="login-container">
-        <Card className="p-4 w-25 shadow-lg login-box">
+        <Card className="p-5 w-26 shadow-lg login-box">
           <h2 className="text-center mb-4">Welcome to SimpliFit</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form className="w-75 justify-content-center mx-auto" onSubmit={handleLogin}>

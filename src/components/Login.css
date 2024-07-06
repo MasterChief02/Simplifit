@@ -6,9 +6,16 @@ body {
     margin: 0;
 }
 
-.login-header,
+.login-header{
+    background:#539e30;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 15px 0;
+    font-weight: bold;
+}
+
 .login-footer {
-    background: linear-gradient(to right, #56ab2f 30%, #a8e063 70%);
+    background:#539e30;
     color: rgb(255, 255, 255);
     text-align: center;
     padding: 15px 0;
