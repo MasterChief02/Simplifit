@@ -28,16 +28,15 @@ const Login = () => {
   return (
     <div className="login-wrapper">
       <header className="login-header">SimpliFit</header>
-      <Container className="login-container">
-        <Card className="p-4 shadow-lg login-box">
+      <Container fluid className="login-container">
+        <Card className="p-4 w-25 shadow-lg login-box">
           <h2 className="text-center mb-4">Welcome to SimpliFit</h2>
           {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleLogin}>
+          <Form className="w-75 justify-content-center mx-auto" onSubmit={handleLogin}>
             <Form.Group controlId="formBasicUsername">
-              <Form.Label>Username</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter username"
+                placeholder="Enter your username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -45,17 +44,16 @@ const Login = () => {
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Password"
+                placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="w-100 mt-3">
+            <Button variant="success" type="submit" className="w-100 mt-3">
               Login
             </Button>
           </Form>
