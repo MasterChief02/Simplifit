@@ -10,7 +10,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Simulated user credentials (replace with actual authentication logic)
+    // sample user login info (replace with actual authentication logic)
     const validUsername = 'user';
     const validPassword = 'password';
 
