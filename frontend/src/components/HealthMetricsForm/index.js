@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
-import { Container, Form, InputGroup } from 'react-bootstrap';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Container, Button } from 'react-bootstrap';
 import './Form.css';
 import CarouselForm from './CarouselForm';
 
 const InfoForm = () => {
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
 
   return (
     <div className="form-wrapper">
@@ -12,6 +18,13 @@ const InfoForm = () => {
         <div
           className="py-4 px-5 shadow-lg form-res-box bg-white rounded-4"
         >
+          <Button
+            variant="outline-secondary" 
+            onClick={handleGoBack} 
+            className="mb-3"
+          >
+            &larr; Back
+          </Button>
           <CarouselForm />
         </div>
       </Container>
