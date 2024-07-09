@@ -35,7 +35,6 @@ const Login = () => {
           <Form className="w-75 justify-content-center mx-auto" onSubmit={handleLogin}>
             <Form.Group controlId="formBasicUsername">
               <Form.Control
-                className="login-input"
                 type="text"
                 placeholder="Enter your username"
                 value={username}
@@ -46,7 +45,6 @@ const Login = () => {
 
             <Form.Group controlId="formBasicPassword">
               <Form.Control
-                className="login-input"
                 type="password"
                 placeholder="Enter your password"
                 value={password}
