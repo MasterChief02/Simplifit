@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Card, Alert } from 'react-bootstrap';
+import axios from 'axios';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +10,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     // sample user login info (replace with actual authentication logic)
@@ -22,6 +23,7 @@ const Login = () => {
       setError('');
       setUsername('');
       setPassword('');
+      // const response = await axios.post('/login', { username, password });
       navigate('/pef', { state: { username: validUsername } });
     } else {
       setError('Invalid username or password');
