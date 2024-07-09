@@ -30,6 +30,12 @@ const Navigation = () => {
           >
             Body Measurements Form
           </Button>
+          <Button
+            className="nav-button"
+            onClick={() => navigate('/wellness')}
+          >
+            See your Wellness Data here
+          </Button>
         </div>
       </Container>
       <footer className="nav-footer">© 2024 SimpliFit</footer>

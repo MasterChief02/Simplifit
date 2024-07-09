@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #78c26d;
+    margin: 0;
+}
+
+.user-data-header{
+    background:#539e30;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 15px 0;
+    font-weight: bold;
+}
+
+.user-data-footer {
+    background:#539e30;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 15px 0;
+    font-weight: bold;
+}
+
+.user-data-container {
+    height: calc(100vh - 130px);
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background: linear-gradient(to right, #56ab2f 30%, #a8e063 70%);
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.btn-primary {
+    background-color: #56ab2f;
+    border-color: #56ab2f;
+    border-radius: 30px;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #4b9929;
+    border-color: #4b9929;
+}
+
+.user-data-label {
+    font-size: 18px;
+}
+
+.step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+}
+
+.step.active {
+    opacity: 1;
+}
+
+.step.finish {
+    background-color: #04AA6D;
+}
+
+.user-data-res-box {
+    max-height: 100%; /* Ensure the box doesn't exceed the container height */
+    overflow-y: auto; /* Enable scrolling within the box if needed */
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

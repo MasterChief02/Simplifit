@@ -8,6 +8,7 @@ import HealthMetricsForm from './components/HealthMetricsForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigation from './components/Navigation';
 import './App.css'
+import WellnessData from './components/WellnessData';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/bmf" element={<BodyMeasurementsForm />} />
         <Route path="/hmf" element={<HealthMetricsForm />} />
         <Route path="/pef" element={<PersonalEvaluationForm />} />
+        <Route path="/wellness" element={<WellnessData />} />
         <Route path="/navigation" element={<Navigation />} />
       </Routes>
     </Router>
