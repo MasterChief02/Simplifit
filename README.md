@@ -6,6 +6,6 @@ Initialize react app using following commands:
 
 ``` bash
 cd frontend
-npm init
+npm init/ npm install
 npm start
 ```
