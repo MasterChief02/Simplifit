@@ -22,7 +22,7 @@ const Login = () => {
       setError('');
       setUsername('');
       setPassword('');
-      // navigate('/dashboard', { state: { username: validUsername } });
+      navigate('/pef', { state: { username: validUsername } });
     } else {
       setError('Invalid username or password');
     }
