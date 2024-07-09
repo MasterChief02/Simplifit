@@ -24,7 +24,7 @@ const Login = () => {
       setUsername('');
       setPassword('');
       // const response = await axios.post('/login', { username, password });
-      navigate('/pef', { state: { username: validUsername } });
+      navigate('/navigation', { state: { username: validUsername } });
     } else {
       setError('Invalid username or password');
     }
