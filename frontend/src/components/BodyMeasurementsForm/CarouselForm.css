@@ -1,0 +1,48 @@
+.green-carousel .carousel-indicators button {
+    background-color: #4caf50;
+}
+
+.green-carousel .carousel-control-prev,
+.green-carousel .carousel-control-next {
+    display: none;
+}
+
+.form-control:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+}
+
+.form-check-input:checked {
+    background-color: #4caf50;
+    border-color: #4caf50;
+}
+
+.form-unit {
+    background-color: #A3CFBB !important;
+}
+
+h3 {
+    color: #2e7d32;
+}
+
+.scrollable-carousel-item {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+  
+.scrollable-carousel-item::-webkit-scrollbar {
+    width: 10px;
+}
+
+.scrollable-carousel-item::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.scrollable-carousel-item::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+.scrollable-carousel-item::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
