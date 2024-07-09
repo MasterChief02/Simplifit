@@ -3,11 +3,13 @@ package com.simplifit.service;
 import com.simplifit.model.UserInfo;
 import com.simplifit.model.HealthMetrics;
 import com.simplifit.model.PersonalEvaluation;
+import com.simplifit.model.TrackerData;
 import com.simplifit.model.UserCredentials;
 import com.simplifit.model.BodyMeasurements;
 import com.simplifit.repository.UserJPARepository;
 import com.simplifit.repository.HealthMetricsJPARepository;
 import com.simplifit.repository.PersonalEvaluationJPARepository;
+import com.simplifit.repository.TrackerDataRepository;
 import com.simplifit.repository.BodyMeasurementsJPARepository;
 import com.simplifit.repository.UserCredentialsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UnifiedService {
@@ -24,7 +27,10 @@ public class UnifiedService {
     private final PersonalEvaluationJPARepository personalEvaluationRepository;
     private final BodyMeasurementsJPARepository bodyMeasurementsRepository;
     private final UserCredentialsRepository userCredentialsRepository;
+    private final TrackerDataRepository trackerDataRepository;
+
     private UserCredentials userCredentials;
+    
 
 
     @Autowired
@@ -32,12 +38,15 @@ public class UnifiedService {
                           HealthMetricsJPARepository healthMetricsRepository,
                           PersonalEvaluationJPARepository personalEvaluationRepository,
                           BodyMeasurementsJPARepository bodyMeasurementsRepository,
-                          UserCredentialsRepository userCredentialsRepository) {
+                          UserCredentialsRepository userCredentialsRepository,
+                          TrackerDataRepository trackerDataRepository
+                          ) {
         this.userInfoRepository = userInfoRepository;
         this.healthMetricsRepository = healthMetricsRepository;
         this.personalEvaluationRepository = personalEvaluationRepository;
         this.bodyMeasurementsRepository = bodyMeasurementsRepository;
         this.userCredentialsRepository = userCredentialsRepository;
+        this.trackerDataRepository = trackerDataRepository;
         this.userCredentials = null;
     }
 
@@ -140,6 +149,23 @@ public class UnifiedService {
             throw new EntityNotFoundException("BodyMeasurements with id " + id + " not found");
         }
         bodyMeasurementsRepository.deleteById(id);
+    }
+
+
+     public TrackerData saveTrackerData(TrackerData trackerData) {
+        return trackerDataRepository.save(trackerData);
+    }
+
+    public List<TrackerData> getAllTrackerData() {
+        return trackerDataRepository.findAll();
+    }
+
+    public Optional<TrackerData> getTrackerDataById(Long id) {
+        return trackerDataRepository.findById(id);
+    }
+
+    public void deleteTrackerData(Long id) {
+        trackerDataRepository.deleteById(id);
     }
 
     

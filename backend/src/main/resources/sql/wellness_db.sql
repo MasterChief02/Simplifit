@@ -5,6 +5,15 @@ CREATE DATABASE wellness_evaluation;
 USE wellness_evaluation;
 
 
+DROP TABLE IF EXISTS body_measurements;
+DROP TABLE IF EXISTS health_metrics;
+DROP TABLE IF EXISTS personal_evaluation;
+DROP TABLE IF EXISTS user_info;
+DROP TABLE IF EXISTS user_cred;
+DROP TABLE IF EXISTS tracker_data;
+
+
+
 CREATE TABLE user_cred (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) NOT NULL UNIQUE,
@@ -102,3 +111,15 @@ CREATE TABLE body_measurements (
     arms_lower DECIMAL(5, 2) NOT NULL CHECK (arms_lower > 0),  -- Ensures lower arms measurement is a positive number
     FOREIGN KEY (user_id) REFERENCES user_info(id) ON DELETE CASCADE  -- Foreign key referencing general_info
 );
+
+
+CREATE TABLE tracker_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each tracker_data record
+    user_id INT NOT NULL,
+    date DATE NOT NULL,
+    steps INT,
+    calories INT,
+    water_intake DECIMAL(5, 2), 
+    PRIMARY KEY (user_id, date) 
+);
+
