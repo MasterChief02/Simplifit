@@ -4,9 +4,17 @@ CREATE DATABASE wellness_evaluation;
 
 USE wellness_evaluation;
 
+
+CREATE TABLE user_cred (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL
+);
+
 -- Create the user_info table
 CREATE TABLE user_info (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each user
+    id INT PRIMARY Key,  -- Unique identifier for each user
+    -- Foreign key (id) references user_cred(id),
     referred_by VARCHAR(100),
     coach VARCHAR(100),
     date DATE NOT NULL,
@@ -22,7 +30,8 @@ CREATE TABLE user_info (
     initial_trunk_fat DECIMAL(5, 2) NOT NULL CHECK (initial_trunk_fat >= 0 AND initial_trunk_fat <= 100),  -- Ensures initial trunk fat percentage is between 0 and 100
     initial_whole_body_muscle DECIMAL(5, 2) NOT NULL CHECK (initial_whole_body_muscle >= 0),  -- Ensures initial whole body muscle is a non-negative number
     initial_visceral_fat DECIMAL(5, 2) NOT NULL CHECK (initial_visceral_fat >= 0 AND initial_visceral_fat <= 100),  -- Ensures initial visceral fat percentage is between 0 and 100
-    CONSTRAINT valid_mobile CHECK (mobile REGEXP '^[0-9]{10,15}$')  -- Ensures valid phone number (10-15 digits)
+    CONSTRAINT valid_mobile CHECK (mobile REGEXP '^[0-9]{10,15}$'),  -- Ensures valid phone number (10-15 digits)
+    Foreign Key (id) REFERENCES user_cred(id)
 );
 
 -- Create the health_metrics table
