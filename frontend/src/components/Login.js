@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Card, Alert } from 'react-bootstrap';
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -20,6 +22,7 @@ const Login = () => {
       setError('');
       setUsername('');
       setPassword('');
+      // navigate('/dashboard', { state: { username: validUsername } });
     } else {
       setError('Invalid username or password');
     }
