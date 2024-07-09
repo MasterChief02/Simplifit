@@ -1,5 +1,6 @@
 package com.simplifit.controller;
 
+import com.simplifit.model.UserCredentials;
 import com.simplifit.model.UserInfo;
 import com.simplifit.service.UnifiedService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -42,9 +44,23 @@ public class UserController {
         }
     }
 
+    // @PostMapping()
+    // public UserInfo saveUser(@RequestBody UserInfo user) {
+    //     System.out.println("Pass");
+    //     return unifiedService.saveUser(user);
+    // }
+
     @PostMapping()
-    public UserInfo saveUser(@RequestBody UserInfo user) {
-        return unifiedService.saveUser(user);
+    public ResponseEntity<?> verifyUser(@RequestBody UserCredentials user) {
+        boolean isValid = unifiedService.verifyUser(user.getUsername(), user.getPassword());
+        System.out.println("Pass " + user.getUsername() + user.getPassword());
+        if (isValid) {
+            System.out.println("Passed");
+            return ResponseEntity.ok("success");
+        } else {
+            System.out.println("Failed");
+            return ResponseEntity.ok("failed");
+        }
     }
 
     @DeleteMapping("/{userId}")

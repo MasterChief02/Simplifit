@@ -1,6 +1,8 @@
 package com.simplifit.model;
 
 import javax.persistence.*;
+
+
 import java.util.Date;
 
 @Entity
@@ -9,7 +11,11 @@ public class UserInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long i;
+
+    @ManyToOne
+    @JoinColumn(name = "id", nullable = false)
+    private UserCredentials id;
 
     @Column(name = "referred_by")
     private String referredBy;
@@ -55,12 +61,20 @@ public class UserInfo {
     @Column(name = "initial_visceral_fat", nullable = false)
     private Double initialVisceralFat;
 
+    public Long getI() {
+        return i;
+    }
 
-    public Integer getId() {
+    public void setI(Long id) {
+        this.i = id;
+    }
+
+
+    public UserCredentials getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UserCredentials id) {
         this.id = id;
     }
 

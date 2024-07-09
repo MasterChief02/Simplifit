@@ -13,12 +13,13 @@ CREATE TABLE user_cred (
 
 -- Create the user_info table
 CREATE TABLE user_info (
-    id INT PRIMARY Key,  -- Unique identifier for each user
+    i INT AUTO_INCREMENT PRIMARY Key,  -- Unique identifier for each user
     -- Foreign key (id) references user_cred(id),
+    id int,
     referred_by VARCHAR(100),
     coach VARCHAR(100),
     date DATE NOT NULL,
-    gender ENUM('M', 'F', 'Others') NOT NULL,  
+    gender ENUM('M', 'F', 'Others') NOT NULL,
     name VARCHAR(100) NOT NULL,
     mobile VARCHAR(15) NOT NULL UNIQUE,  -- Ensures mobile numbers are unique
     age INT NOT NULL CHECK (age > 0),  -- Ensures age is a positive number

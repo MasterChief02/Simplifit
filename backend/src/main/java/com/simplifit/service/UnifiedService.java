@@ -3,11 +3,13 @@ package com.simplifit.service;
 import com.simplifit.model.UserInfo;
 import com.simplifit.model.HealthMetrics;
 import com.simplifit.model.PersonalEvaluation;
+import com.simplifit.model.UserCredentials;
 import com.simplifit.model.BodyMeasurements;
 import com.simplifit.repository.UserJPARepository;
 import com.simplifit.repository.HealthMetricsJPARepository;
 import com.simplifit.repository.PersonalEvaluationJPARepository;
 import com.simplifit.repository.BodyMeasurementsJPARepository;
+import com.simplifit.repository.UserCredentialsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +23,26 @@ public class UnifiedService {
     private final HealthMetricsJPARepository healthMetricsRepository;
     private final PersonalEvaluationJPARepository personalEvaluationRepository;
     private final BodyMeasurementsJPARepository bodyMeasurementsRepository;
+    private final UserCredentialsRepository userCredentialsRepository;
+    private UserCredentials userCredentials;
+
 
     @Autowired
     public UnifiedService(UserJPARepository userInfoRepository,
                           HealthMetricsJPARepository healthMetricsRepository,
                           PersonalEvaluationJPARepository personalEvaluationRepository,
-                          BodyMeasurementsJPARepository bodyMeasurementsRepository) {
+                          BodyMeasurementsJPARepository bodyMeasurementsRepository,
+                          UserCredentialsRepository userCredentialsRepository) {
         this.userInfoRepository = userInfoRepository;
         this.healthMetricsRepository = healthMetricsRepository;
         this.personalEvaluationRepository = personalEvaluationRepository;
         this.bodyMeasurementsRepository = bodyMeasurementsRepository;
+        this.userCredentialsRepository = userCredentialsRepository;
+        this.userCredentials = null;
+    }
+
+    public void setUser(UserCredentials userCredentials){
+        this.userCredentials = userCredentials;
     }
 
     // Methods for UserInfo
@@ -38,9 +50,22 @@ public class UnifiedService {
         return userInfoRepository.findAll();
     }
 
+    
+
     public UserInfo getUserById(Integer id) {
         return userInfoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+    }
+
+    public boolean verifyUser(String username, String password) {
+   
+        // System.out.println(userCredentialsRepository.findByUsernameAndPassword(username, password));
+        List<UserCredentials> users = userCredentialsRepository.findByUsernameAndPassword(username, password);
+        if (users.size() > 0) {
+            setUser(users.get(0));
+        }
+        
+        return (users.size() > 0);
     }
 
     public UserInfo saveUser(UserInfo user) {
