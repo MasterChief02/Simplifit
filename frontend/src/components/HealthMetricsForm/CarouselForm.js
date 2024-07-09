@@ -7,20 +7,21 @@ function CarouselForm() {
   const [index, setIndex] = useState(0);
   const [formData, setFormData] = useState({
     weight: '',
-    bodyFatPercentage: 0,
-    visceralFatPercentage: 0,
+    bodyFatPercentage: 50,
+    visceralFatPercentage: 50,
     rmKcal: '',
     bmi: '',
     bodyAge: '',
-    wholeBodySf: 0,
-    wholeBodySkm: 0,
-    trunkSf: 0,
-    trunkSkm: 0,
-    armsSf: 0,
-    armsSkm: 0,
-    legsSf: 0,
-    legsSkm: 0,
+    wholeBodySf: 50,
+    wholeBodySkm: 50,
+    trunkSf: 50,
+    trunkSkm: 50,
+    armsSf: 50,
+    armsSkm: 50,
+    legsSf: 50,
+    legsSkm: 50,
   });
+  const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('');
 
   const handleSelect = (selectedIndex) => {
@@ -30,25 +31,44 @@ function CarouselForm() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    // Clear error when user starts typing
+    setErrors({ ...errors, [name]: '' });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value !== '' && isNaN(value)) {
+        newErrors[key] = 'Please enter a valid number';
+      } else if (value !== '' && parseFloat(value) <= 0) {
+        newErrors[key] = 'Please enter a positives number';
+      }
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:8080/api/healthmetrics', {
-        user: {
-          id: 1
-        },
-        date: new Date().toISOString().split('T')[0],
-        ...formData
-      });
-      if (response.status === 200) {
-        setStatus('success');
+    if (validateForm()) {
+      try {
+        const response = await axios.post('http://localhost:8080/api/healthmetrics', {
+          user: {
+            id: 1
+          },
+          date: new Date().toISOString().split('T')[0],
+          ...formData
+        });
+        if (response.status === 200) {
+          setStatus('success');
+        }
+        console.log('API Response:', response.data);
+      } catch (error) {
+        setStatus('error');
+        console.error('Error submitting form:', error);
       }
-      console.log('API Response:', response.data);
-    } catch (error) {
+    } else {
       setStatus('error');
-      console.error('Error submitting form:', error);
     }
   };
 
@@ -70,10 +90,34 @@ function CarouselForm() {
             name={name}
             value={formData[name]}
             onChange={handleChange}
+            isInvalid={!!errors[name]}
           />
           <InputGroup.Text className='form-unit'>%</InputGroup.Text>
+          <Form.Control.Feedback type="invalid">
+            {errors[name]}
+          </Form.Control.Feedback>
         </InputGroup>
       </div>
+    </Form.Group>
+  );
+
+  const renderNumberInput = (name, label, unit) => (
+    <Form.Group className="mb-3">
+      <Form.Label>{label}</Form.Label>
+      <InputGroup className='mx-auto'>
+        <Form.Control
+          type="number"
+          name={name}
+          value={formData[name]}
+          onChange={handleChange}
+          className='text-start'
+          isInvalid={!!errors[name]}
+        />
+        {unit && <InputGroup.Text className='form-unit'>{unit}</InputGroup.Text>}
+        <Form.Control.Feedback type="invalid">
+          {errors[name]}
+        </Form.Control.Feedback>
+      </InputGroup>
     </Form.Group>
   );
 
@@ -84,10 +128,10 @@ function CarouselForm() {
         variant={status === 'success' ? 'success' : 'danger'} 
         className="position-fixed top-0 start-50 translate-middle-x mt-3 z-index-1000"
       >
-        {status === 'success' ? 'Form submitted successfully!' : 'Error submitting form. Please try again.'}
+        {status === 'success' ? 'Form submitted successfully!' : 'Error submitting form. Please check the fields and try again.'}
       </Alert>
     )}
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} noValidate>
       <Carousel
         activeIndex={index}
         onSelect={handleSelect}
@@ -97,57 +141,10 @@ function CarouselForm() {
       >
         <Carousel.Item className='mb-5'>
           <h3 className="text-success">Health Metrics</h3>
-          <Form.Group className="mb-3">
-            <Form.Label>Body Age</Form.Label>
-            <InputGroup className='mx-auto'>
-              <Form.Control
-                type="number"
-                name="bodyAge"
-                value={formData.bodyAge}
-                onChange={handleChange}
-                className='text-center'
-              />
-            </InputGroup>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Weight</Form.Label>
-            <InputGroup className='mx-auto'>
-              <Form.Control
-                type="number"
-                name="weight"
-                value={formData.weight}
-                onChange={handleChange}
-                className='text-center'
-              />
-              <InputGroup.Text className='form-unit'>kg</InputGroup.Text>
-            </InputGroup>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>BMI</Form.Label>
-            <InputGroup className='mx-auto'>
-              <Form.Control
-                type="number"
-                name="bmi"
-                value={formData.bmi}
-                onChange={handleChange}
-                className='text-center'
-              />
-              <InputGroup.Text className='form-unit'>kg/m2</InputGroup.Text>
-            </InputGroup>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>RM</Form.Label>
-            <InputGroup className='mx-auto'>
-              <Form.Control
-                type="number"
-                name="rmKcal"
-                value={formData.rmKcal}
-                onChange={handleChange}
-                className='text-center'
-              />
-              <InputGroup.Text className='form-unit'>kcal</InputGroup.Text>
-            </InputGroup>
-          </Form.Group>
+          {renderNumberInput('bodyAge', 'Body Age')}
+          {renderNumberInput('weight', 'Weight', 'kg')}
+          {renderNumberInput('bmi', 'BMI', 'kg/m2')}
+          {renderNumberInput('rmKcal', 'RM', 'kcal')}
         </Carousel.Item>
 
         <Carousel.Item className='mb-5'>
@@ -180,8 +177,10 @@ function CarouselForm() {
           <Button 
             variant="success" 
             onClick={(e) => {
-              e.preventDefault();  // Prevent form submission
-              setIndex(index + 1);
+              e.preventDefault();
+              if (validateForm()) {
+                setIndex(index + 1);
+              }
             }}
             type="button"
           >

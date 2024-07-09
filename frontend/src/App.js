@@ -7,6 +7,7 @@ import PersonalEvaluationForm from './components/PersonalEvaluationForm';
 import HealthMetricsForm from './components/HealthMetricsForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigation from './components/Navigation';
+import './App.css'
 
 
 function App() {
