@@ -11,7 +11,7 @@ const Navigation = () => {
       <header className="nav-header">SimpliFit: it's Simple to be Fit</header>
       <Container fluid className="nav-container">
         <div className="nav-box">
-          <h2>Choose Your Destination</h2>
+          <h2>Fill your details</h2>
           <Button 
             className="nav-button" 
             onClick={() => navigate('/pef')}
