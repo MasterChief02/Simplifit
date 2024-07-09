@@ -1,35 +1,37 @@
 import React, { useState } from 'react';
-import { Carousel, Form, Button, InputGroup, Row, Col } from 'react-bootstrap';
+import { Carousel, Form, Button, Alert } from 'react-bootstrap';
+import axios from 'axios';
 import './CarouselForm.css';
 
 function CarouselForm() {
   const [index, setIndex] = useState(0);
   const [formData, setFormData] = useState({
-    favorite_snacks: '',
+    favoriteSnacks: '',
     breakfast: '',
-    daily_water: '',
-    veg_non_veg: '',
+    dailyWater: '',
+    vegNonVeg: '',
     lunch: '',
-    eating_out: '',
-    walk_exercise: '',
+    eatingOut: '',
+    walkExercise: '',
     dinner: '',
     surgery: '',
     stress: '',
     cravings: '',
-    coffee_tea_soda: '',
-    bleeding_gums: false,
-    day_time_sleeping_lazy: false,
-    night_sleep_frequent_urination: false,
-    dandruff_hair_fall: false,
-    motion_problem: false,
-    acidity_gastric: false,
-    body_pain: false,
-    asthma_wheezing_breathlessness: false,
-    sneezing_dust_allergy: false,
-    skin_problem: false,
-    regular_medication: false,
-    medication_for_what: '',
+    coffeeTeaSoda: '',
+    bleedingGums: false,
+    dayTimeSleepingLazy: false,
+    nightSleepFrequentUrination: false,
+    dandruffHairFall: false,
+    motionProblem: false,
+    acidityGastric: false,
+    bodyPain: false,
+    asthmaWheezingBreathlessness: false,
+    sneezingDustAllergy: false,
+    skinProblem: false,
+    regularMedication: false,
+    medicationForWhat: '',
   });
+  const [status, setStatus] = useState('');
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
@@ -40,9 +42,19 @@ function CarouselForm() {
     setFormData({ ...formData, [name]: type === 'checkbox' ? checked : value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    try {
+      const response = await axios.post('http://localhost:8080/api/personalevaluation', {
+        user: { id: 1 },
+        ...formData
+      });
+      console.log('Form submitted:', response.data);
+      setStatus('success');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setStatus('error');
+    }
   };
 
   const renderTextInput = (name, label) => (
@@ -70,6 +82,15 @@ function CarouselForm() {
   );
 
   return (
+    <>
+    {status && (
+      <Alert 
+        variant={status === 'success' ? 'success' : 'danger'} 
+        className="position-fixed top-0 start-50 translate-middle-x mt-3 z-index-1000"
+      >
+        {status === 'success' ? 'Form submitted successfully!' : 'Error submitting form. Please try again.'}
+      </Alert>
+    )}
     <Form onSubmit={handleSubmit}>
       <Carousel
         activeIndex={index}
@@ -81,12 +102,12 @@ function CarouselForm() {
         <Carousel.Item className='mb-5'>
           <h3 className="text-success">Dietary Habits</h3>
           <div className="scrollable-carousel-item">
-            {renderTextInput('favorite_snacks', 'Favorite Snacks')}
+            {renderTextInput('favoriteSnacks', 'Favorite Snacks')}
             {renderTextInput('breakfast', 'Breakfast')}
-            {renderTextInput('daily_water', 'Daily Water Intake')}
-            {renderTextInput('veg_non_veg', 'Vegetarian or Non-Vegetarian')}
+            {renderTextInput('dailyWater', 'Daily Water Intake')}
+            {renderTextInput('vegNonVeg', 'Vegetarian or Non-Vegetarian')}
             {renderTextInput('lunch', 'Lunch')}
-            {renderTextInput('eating_out', 'Eating Out Frequency')}
+            {renderTextInput('eatingOut', 'Eating Out Frequency')}
             {renderTextInput('dinner', 'Dinner')}
           </div>
         </Carousel.Item>
@@ -94,39 +115,51 @@ function CarouselForm() {
         <Carousel.Item className='mb-5'>
           <h3 className="text-success">Lifestyle & Health</h3>
             <div className="scrollable-carousel-item">
-            {renderTextInput('walk_exercise', 'Walk/Exercise Routine')}
+            {renderTextInput('walkExercise', 'Walk/Exercise Routine')}
             {renderTextInput('surgery', 'Recent Surgeries')}
             {renderTextInput('stress', 'Stress Level')}
             {renderTextInput('cravings', 'Food Cravings')}
-            {renderTextInput('coffee_tea_soda', 'Coffee/Tea/Soda Consumption')}
+            {renderTextInput('coffeeTeaSoda', 'Coffee/Tea/Soda Consumption')}
           </div>
         </Carousel.Item>
 
         <Carousel.Item className='mb-5'>
           <h3 className="text-success">Health Conditions</h3>
           <div className="scrollable-carousel-item">
-            {renderCheckbox('bleeding_gums', 'Bleeding Gums')}
-            {renderCheckbox('day_time_sleeping_lazy', 'Daytime Sleepiness/Laziness')}
-            {renderCheckbox('night_sleep_frequent_urination', 'Night Sleep Disruption/Frequent Urination')}
-            {renderCheckbox('dandruff_hair_fall', 'Dandruff/Hair Fall')}
-            {renderCheckbox('motion_problem', 'Motion Problems')}
-            {renderCheckbox('acidity_gastric', 'Acidity/Gastric Issues')}
-            {renderCheckbox('body_pain', 'Body Pain')}
-            {renderCheckbox('asthma_wheezing_breathlessness', 'Asthma/Wheezing/Breathlessness')}
-            {renderCheckbox('sneezing_dust_allergy', 'Sneezing/Dust Allergy')}
-            {renderCheckbox('skin_problem', 'Skin Problems')}
-            {renderCheckbox('regular_medication', 'Regular Medication')}
-            {formData.regular_medication && renderTextInput('medication_for_what', 'Medication For')}
+            {renderCheckbox('bleedingGums', 'Bleeding Gums')}
+            {renderCheckbox('dayTimeSleepingLazy', 'Daytime Sleepiness/Laziness')}
+            {renderCheckbox('nightSleepFrequentUrination', 'Night Sleep Disruption/Frequent Urination')}
+            {renderCheckbox('dandruffHairFall', 'Dandruff/Hair Fall')}
+            {renderCheckbox('motionProblem', 'Motion Problems')}
+            {renderCheckbox('acidityGastric', 'Acidity/Gastric Issues')}
+            {renderCheckbox('bodyPain', 'Body Pain')}
+            {renderCheckbox('asthmaWheezingBreathlessness', 'Asthma/Wheezing/Breathlessness')}
+            {renderCheckbox('sneezingDustAllergy', 'Sneezing/Dust Allergy')}
+            {renderCheckbox('skinProblem', 'Skin Problems')}
+            {renderCheckbox('regularMedication', 'Regular Medication')}
+            {formData.regularMedication && renderTextInput('medicationForWhat', 'Medication For')}
           </div>
         </Carousel.Item>
       </Carousel>
 
       <div className="mt-3">
-        <Button variant="outline-success" onClick={() => setIndex(index - 1)} disabled={index === 0}>
+        <Button 
+          variant="outline-success" 
+          onClick={() => setIndex(index - 1)} 
+          disabled={index === 0}
+          type="button"
+        >
           Previous
         </Button>{' '}
         {index < 2 ? (
-          <Button variant="success" onClick={() => setIndex(index + 1)}>
+          <Button 
+            variant="success" 
+            onClick={(e) => {
+              e.preventDefault();
+              setIndex(index + 1);
+            }}
+            type="button"
+          >
             Next
           </Button>
         ) : (
@@ -136,6 +169,7 @@ function CarouselForm() {
         )}
       </div>
     </Form>
+    </>
   );
 }
 

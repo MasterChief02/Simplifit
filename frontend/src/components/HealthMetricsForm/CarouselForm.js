@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
-import { Carousel, Form, Button, InputGroup } from 'react-bootstrap';
+import { Carousel, Form, Button, InputGroup, Alert } from 'react-bootstrap';
 import './CarouselForm.css';
+import axios from 'axios';
 
 function CarouselForm() {
   const [index, setIndex] = useState(0);
   const [formData, setFormData] = useState({
-    age: '',
     weight: '',
+    bodyFatPercentage: 0,
+    visceralFatPercentage: 0,
+    rmKcal: '',
     bmi: '',
-    rm: '',
-    bodyFat: 0,
-    visceralFat: 0,
-    wholeBodySF: 0,
-    wholeBodySKM: 0,
-    trunkSF: 0,
-    trunkSKM: 0,
-    armsSF: 0,
-    armsSKM: 0,
-    legsSF: 0,
-    legsSKM: 0,
+    bodyAge: '',
+    wholeBodySf: 0,
+    wholeBodySkm: 0,
+    trunkSf: 0,
+    trunkSkm: 0,
+    armsSf: 0,
+    armsSkm: 0,
+    legsSf: 0,
+    legsSkm: 0,
   });
+  const [status, setStatus] = useState('');
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
@@ -30,9 +32,24 @@ function CarouselForm() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    try {
+      const response = await axios.post('http://localhost:8080/api/healthmetrics', {
+        user: {
+          id: 1
+        },
+        date: new Date().toISOString().split('T')[0],
+        ...formData
+      });
+      if (response.status === 200) {
+        setStatus('success');
+      }
+      console.log('API Response:', response.data);
+    } catch (error) {
+      setStatus('error');
+      console.error('Error submitting form:', error);
+    }
   };
 
   const renderRangeInput = (name, label) => (
@@ -47,9 +64,7 @@ function CarouselForm() {
           max="100"
           step="0.1"
         />
-        <InputGroup
-            style={{ width: '165px', marginLeft: '5px' }}
-        >
+        <InputGroup style={{ width: '165px', marginLeft: '5px' }}>
           <Form.Control
             type="number"
             name={name}
@@ -63,6 +78,15 @@ function CarouselForm() {
   );
 
   return (
+    <>
+    {status && (
+      <Alert 
+        variant={status === 'success' ? 'success' : 'danger'} 
+        className="position-fixed top-0 start-50 translate-middle-x mt-3 z-index-1000"
+      >
+        {status === 'success' ? 'Form submitted successfully!' : 'Error submitting form. Please try again.'}
+      </Alert>
+    )}
     <Form onSubmit={handleSubmit}>
       <Carousel
         activeIndex={index}
@@ -71,21 +95,15 @@ function CarouselForm() {
         className="green-carousel"
         touch={false}
       >
-        <Carousel.Item
-          className='mb-5'
-        >
+        <Carousel.Item className='mb-5'>
           <h3 className="text-success">Health Metrics</h3>
-          <Form.Group
-            className="mb-3"
-          >
-            <Form.Label>Age</Form.Label>
-            <InputGroup
-              className='mx-auto'
-            >
+          <Form.Group className="mb-3">
+            <Form.Label>Body Age</Form.Label>
+            <InputGroup className='mx-auto'>
               <Form.Control
                 type="number"
-                name="age"
-                value={formData.age}
+                name="bodyAge"
+                value={formData.bodyAge}
                 onChange={handleChange}
                 className='text-center'
               />
@@ -93,9 +111,7 @@ function CarouselForm() {
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Weight</Form.Label>
-            <InputGroup
-              className='mx-auto'
-            >
+            <InputGroup className='mx-auto'>
               <Form.Control
                 type="number"
                 name="weight"
@@ -108,9 +124,7 @@ function CarouselForm() {
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>BMI</Form.Label>
-            <InputGroup
-              className='mx-auto'
-            >
+            <InputGroup className='mx-auto'>
               <Form.Control
                 type="number"
                 name="bmi"
@@ -123,17 +137,15 @@ function CarouselForm() {
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>RM</Form.Label>
-            <InputGroup
-              className='mx-auto'
-            >
+            <InputGroup className='mx-auto'>
               <Form.Control
                 type="number"
-                name="rm"
-                value={formData.rm}
+                name="rmKcal"
+                value={formData.rmKcal}
                 onChange={handleChange}
                 className='text-center'
               />
-              <InputGroup.Text className='form-unit'>kcl</InputGroup.Text>
+              <InputGroup.Text className='form-unit'>kcal</InputGroup.Text>
             </InputGroup>
           </Form.Group>
         </Carousel.Item>
@@ -141,26 +153,38 @@ function CarouselForm() {
         <Carousel.Item className='mb-5'>
           <div className="scrollable-carousel-item">
             <h3 className="text-success">Health Metrics</h3>
-            {renderRangeInput('bodyFat', 'Body Fat')}
-            {renderRangeInput('visceralFat', 'Visceral Fat')}
-            {renderRangeInput('wholeBodySF', 'Whole Body SF')}
-            {renderRangeInput('wholeBodySKM', 'Whole Body SKM')}
-            {renderRangeInput('trunkSF', 'Trunk SF')}
-            {renderRangeInput('trunkSKM', 'Trunk SKM')}
-            {renderRangeInput('armsSF', 'Arms SF')}
-            {renderRangeInput('armsSKM', 'Arms SKM')}
-            {renderRangeInput('legsSF', 'Legs SF')}
-            {renderRangeInput('legsSKM', 'Legs SKM')}
+            {renderRangeInput('bodyFatPercentage', 'Body Fat')}
+            {renderRangeInput('visceralFatPercentage', 'Visceral Fat')}
+            {renderRangeInput('wholeBodySf', 'Whole Body SF')}
+            {renderRangeInput('wholeBodySkm', 'Whole Body SKM')}
+            {renderRangeInput('trunkSf', 'Trunk SF')}
+            {renderRangeInput('trunkSkm', 'Trunk SKM')}
+            {renderRangeInput('armsSf', 'Arms SF')}
+            {renderRangeInput('armsSkm', 'Arms SKM')}
+            {renderRangeInput('legsSf', 'Legs SF')}
+            {renderRangeInput('legsSkm', 'Legs SKM')}
           </div>
         </Carousel.Item>
       </Carousel>
 
       <div className="mt-3">
-        <Button variant="outline-success" onClick={() => setIndex(index - 1)} disabled={index === 0}>
+        <Button 
+          variant="outline-success" 
+          onClick={() => setIndex(index - 1)} 
+          disabled={index === 0}
+          type="button"
+        >
           Previous
         </Button>{' '}
         {index < 1 ? (
-          <Button variant="success" onClick={() => setIndex(index + 1)}>
+          <Button 
+            variant="success" 
+            onClick={(e) => {
+              e.preventDefault();  // Prevent form submission
+              setIndex(index + 1);
+            }}
+            type="button"
+          >
             Next
           </Button>
         ) : (
@@ -170,6 +194,7 @@ function CarouselForm() {
         )}
       </div>
     </Form>
+    </>
   );
 }
 

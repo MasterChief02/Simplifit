@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Carousel, Form, Button } from 'react-bootstrap';
+import { Carousel, Form, Button, Alert } from 'react-bootstrap';
+import axios from 'axios';
 import './CarouselForm.css';
 
 function BodyMeasurementsForm() {
@@ -10,9 +11,10 @@ function BodyMeasurementsForm() {
     trunk: '',
     waist: '',
     hips: '',
-    arms_upper: '',
-    arms_lower: '',
+    armsUpper: '',
+    armsLower: '',
   });
+  const [status, setStatus] = useState('');
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
@@ -20,17 +22,23 @@ function BodyMeasurementsForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const numValue = parseFloat(value);
-    if (!isNaN(numValue) && numValue > 0) {
-      setFormData({ ...formData, [name]: numValue.toFixed(2) });
-    } else {
-      setFormData({ ...formData, [name]: '' });
-    }
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    try {
+      const response = await axios.post('http://localhost:8080/api/bodymeasurements', {
+        user: { id: 1 },
+        date: new Date().toISOString().split('T')[0],
+        ...formData
+      });
+      console.log('Form submitted:', response.data);
+      setStatus('success');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setStatus('error');
+    }
   };
 
   const renderDecimalInput = (name, label) => (
@@ -48,6 +56,15 @@ function BodyMeasurementsForm() {
   );
 
   return (
+    <>
+    {status && (
+      <Alert 
+        variant={status === 'success' ? 'success' : 'danger'} 
+        className="position-fixed top-0 start-50 translate-middle-x mt-3 z-index-1000"
+      >
+        {status === 'success' ? 'Form submitted successfully!' : 'Error submitting form. Please try again.'}
+      </Alert>
+    )}
     <Form onSubmit={handleSubmit}>
       <Carousel
         activeIndex={index}
@@ -62,7 +79,7 @@ function BodyMeasurementsForm() {
             {renderDecimalInput('neck', 'Neck Circumference')}
             {renderDecimalInput('chest', 'Chest Circumference')}
             {renderDecimalInput('trunk', 'Trunk Length')}
-            {renderDecimalInput('arms_upper', 'Upper Arms Circumference')}
+            {renderDecimalInput('armsUpper', 'Upper Arms Circumference')}
           </div>
         </Carousel.Item>
 
@@ -71,17 +88,29 @@ function BodyMeasurementsForm() {
           <div className="scrollable-carousel-item">
             {renderDecimalInput('waist', 'Waist Circumference')}
             {renderDecimalInput('hips', 'Hips Circumference')}
-            {renderDecimalInput('arms_lower', 'Lower Arms Circumference')}
+            {renderDecimalInput('armsLower', 'Lower Arms Circumference')}
           </div>
         </Carousel.Item>
       </Carousel>
 
       <div className="mt-3">
-        <Button variant="outline-success" onClick={() => setIndex(index - 1)} disabled={index === 0}>
+        <Button 
+          variant="outline-success" 
+          onClick={() => setIndex(index - 1)} 
+          disabled={index === 0}
+          type="button"
+        >
           Previous
         </Button>{' '}
         {index < 1 ? (
-          <Button variant="success" onClick={() => setIndex(index + 1)}>
+          <Button 
+            variant="success" 
+            onClick={(e) => {
+              e.preventDefault();
+              setIndex(index + 1);
+            }}
+            type="button"
+          >
             Next
           </Button>
         ) : (
@@ -91,6 +120,7 @@ function BodyMeasurementsForm() {
         )}
       </div>
     </Form>
+    </>
   );
 }
 

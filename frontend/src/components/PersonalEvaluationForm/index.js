@@ -8,7 +8,7 @@ const PersonalEvaluationForm = () => {
     <div className="form-wrapper">
       <header className="form-header">SimpliFit: it's Simple to be Fit</header>
       <Container fluid className="form-container">
-        <div className="py-4 px-3 px-md-5 shadow-lg form-res-box bg-white rounded-4">
+        <div className="py-4 px-3 shadow-lg form-res-box bg-white rounded-4">
           <CarouselForm />
         </div>
       </Container>
