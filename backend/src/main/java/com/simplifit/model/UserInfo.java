@@ -7,9 +7,9 @@ import java.util.Date;
 @Table(name = "user_info")
 public class UserInfo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @ManyToOne
+    @JoinColumn(name = "id", nullable = false)
+    private UserCredentials id;
 
     @Column(name = "referred_by")
     private String referredBy;
@@ -56,11 +56,11 @@ public class UserInfo {
     private Double initialVisceralFat;
 
 
-    public Integer getId() {
+    public UserCredentials getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UserCredentials id) {
         this.id = id;
     }
 

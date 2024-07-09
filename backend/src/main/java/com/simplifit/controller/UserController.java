@@ -1,5 +1,6 @@
 package com.simplifit.controller;
 
+import com.simplifit.model.UserCredentials;
 import com.simplifit.model.UserInfo;
 import com.simplifit.service.UnifiedService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,16 @@ public class UserController {
     @PostMapping()
     public UserInfo saveUser(@RequestBody UserInfo user) {
         return unifiedService.saveUser(user);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> verifyUser(@RequestBody UserCredentials user) {
+        boolean isValid = unifiedService.verifyUser(user.getUsername(), user.getPassword());
+        if (isValid) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
     @DeleteMapping("/{userId}")
