@@ -23,7 +23,8 @@ const Login = () => {
       setError('');
       setUsername('');
       setPassword('');
-      // const response = await axios.post('/login', { username, password });
+      const response = await axios.post('http://localhost:8080/api/users', { username, password });
+      console.log (response)
       navigate('/navigation', { state: { username: validUsername } });
     } else {
       setError('Invalid username or password');

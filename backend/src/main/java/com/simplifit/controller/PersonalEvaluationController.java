@@ -41,6 +41,7 @@ public class PersonalEvaluationController {
 
     @PostMapping()
     public ResponseEntity<PersonalEvaluation> createPersonalEvaluation(@RequestBody PersonalEvaluation newPersonalEvaluation) {
+        System.out.println("Recv");
         PersonalEvaluation personalEvaluation = unifiedService.savePersonalEvaluation(newPersonalEvaluation);
         return ResponseEntity.ok(personalEvaluation);
     }

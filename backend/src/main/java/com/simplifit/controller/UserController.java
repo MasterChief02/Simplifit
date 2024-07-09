@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -43,18 +44,22 @@ public class UserController {
         }
     }
 
-    @PostMapping()
-    public UserInfo saveUser(@RequestBody UserInfo user) {
-        return unifiedService.saveUser(user);
-    }
+    // @PostMapping()
+    // public UserInfo saveUser(@RequestBody UserInfo user) {
+    //     System.out.println("Pass");
+    //     return unifiedService.saveUser(user);
+    // }
 
-    @PostMapping("/login")
+    @PostMapping()
     public ResponseEntity<?> verifyUser(@RequestBody UserCredentials user) {
         boolean isValid = unifiedService.verifyUser(user.getUsername(), user.getPassword());
+        System.out.println("Pass " + user.getUsername() + user.getPassword());
         if (isValid) {
-            return ResponseEntity.ok().build();
+            System.out.println("Passed");
+            return ResponseEntity.ok("success");
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            System.out.println("Failed");
+            return ResponseEntity.ok("failed");
         }
     }
 
