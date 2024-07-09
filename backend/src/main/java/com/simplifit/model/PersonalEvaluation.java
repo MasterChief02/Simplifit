@@ -9,7 +9,7 @@ public class PersonalEvaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -87,11 +87,11 @@ public class PersonalEvaluation {
     @Column(name = "medication_for_what")
     private String medicationForWhat;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
