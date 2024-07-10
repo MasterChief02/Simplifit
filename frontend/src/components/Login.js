@@ -13,17 +13,21 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
-  
+
     try {
       const response = await axios.post('http://localhost:8080/api/users/', { username, password });
-      
-      if (response.data === "success") {
+
+      if (response.data != -1) {
+        console.log (response.data);
         // Successful login logic
         alert('Login Successful!');
         setUsername('');
         setPassword('');
+        localStorage.setItem('id', response.data);
         navigate('/navigation', { state: { username: username } });
       } else {
+        console.log (response.data);
+        localStorage.setItem('id', response.data);
         setError('Invalid username or password');
       }
     } catch (error) {

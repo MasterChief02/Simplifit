@@ -12,20 +12,20 @@ const Navigation = () => {
       <Container fluid className="nav-container">
         <div className="nav-box">
           <h2>Fill your details</h2>
-          <Button 
-            className="nav-button" 
+          <Button
+            className="nav-button"
             onClick={() => navigate('/pef')}
           >
             Personal Evaluation Form
           </Button>
-          <Button 
-            className="nav-button" 
+          <Button
+            className="nav-button"
             onClick={() => navigate('/hmf')}
           >
             Health Metrics Form
           </Button>
-          <Button 
-            className="nav-button" 
+          <Button
+            className="nav-button"
             onClick={() => navigate('/bmf')}
           >
             Body Measurements Form
@@ -35,6 +35,15 @@ const Navigation = () => {
             onClick={() => navigate('/wellness')}
           >
             See your Wellness Data here
+          </Button>
+          <Button
+            className="nav-button"
+            onClick={() => {
+                localStorage.setItem('id', '-1');
+                navigate('/');
+              }}
+          >
+            Logout
           </Button>
         </div>
       </Container>

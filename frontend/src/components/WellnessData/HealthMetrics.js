@@ -9,7 +9,7 @@ const HealthMetrics = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/healthmetrics');
-        const userMetrics = response.data.filter(metric => metric.user.i === 1)
+        const userMetrics = response.data.filter(metric => metric.user.i === parseInt (localStorage.getItem('id')))
           .sort((a, b) => new Date(b.date) - new Date(a.date));
         setMetrics(userMetrics);
       } catch (error) {

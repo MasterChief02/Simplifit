@@ -9,7 +9,7 @@ const BodyMeasurements = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/bodymeasurements');
-        const userMeasurements = response.data.filter(measurement => measurement.user.i === 1)
+        const userMeasurements = response.data.filter(measurement => measurement.user.i === parseInt (localStorage.getItem('id')))
           .sort((a, b) => new Date(b.date) - new Date(a.date));
         setMeasurements(userMeasurements);
       } catch (error) {

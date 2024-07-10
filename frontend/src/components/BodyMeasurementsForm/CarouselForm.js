@@ -44,7 +44,7 @@ function BodyMeasurementsForm() {
     if (validateForm()) {
       try {
         const response = await axios.post('http://localhost:8080/api/bodymeasurements', {
-          user: { i: 1 },
+          user: { i: localStorage.getItem('id') },
           date: new Date().toISOString().split('T')[0],
           ...formData
         });
@@ -80,8 +80,8 @@ function BodyMeasurementsForm() {
   return (
     <>
     {status && (
-      <Alert 
-        variant={status === 'success' ? 'success' : 'danger'} 
+      <Alert
+        variant={status === 'success' ? 'success' : 'danger'}
         className="position-fixed top-0 start-50 translate-middle-x mt-3 z-index-1000"
       >
         {status === 'success' ? 'Form submitted successfully!' : 'Error submitting form. Please check the fields and try again.'}
@@ -116,17 +116,17 @@ function BodyMeasurementsForm() {
       </Carousel>
 
       <div className="mt-3">
-        <Button 
-          variant="outline-success" 
-          onClick={() => setIndex(index - 1)} 
+        <Button
+          variant="outline-success"
+          onClick={() => setIndex(index - 1)}
           disabled={index === 0}
           type="button"
         >
           Previous
         </Button>{' '}
         {index < 1 ? (
-          <Button 
-            variant="success" 
+          <Button
+            variant="success"
             onClick={(e) => {
               e.preventDefault();
               if (validateForm()) {

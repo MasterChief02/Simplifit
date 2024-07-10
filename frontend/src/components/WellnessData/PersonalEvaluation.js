@@ -9,7 +9,7 @@ const PersonalEvaluation = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/personalevaluation');
-        const userEvaluation = response.data.filter(evaluation => evaluation.user.i === 1).slice(-1)[0];
+        const userEvaluation = response.data.filter(evaluation => evaluation.user.i === parseInt (localStorage.getItem('id'))).slice(-1)[0];
         setEvaluation(userEvaluation);
       } catch (error) {
         console.error('Error fetching data:', error);

@@ -1,8 +1,8 @@
 
-CREATE DATABASE wellness_evaluation;
+-- CREATE DATABASE wellness_evaluation;
 
 
-USE wellness_evaluation;
+-- USE wellness_evaluation;
 
 
 DROP TABLE IF EXISTS body_measurements;

@@ -30,7 +30,7 @@ public class UnifiedService {
     private final TrackerDataRepository trackerDataRepository;
 
     private UserCredentials userCredentials;
-    
+
 
 
     @Autowired
@@ -59,22 +59,23 @@ public class UnifiedService {
         return userInfoRepository.findAll();
     }
 
-    
+
 
     public UserInfo getUserById(Integer id) {
         return userInfoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
     }
 
-    public boolean verifyUser(String username, String password) {
-   
+    public int verifyUser(String username, String password) {
+
         // System.out.println(userCredentialsRepository.findByUsernameAndPassword(username, password));
         List<UserCredentials> users = userCredentialsRepository.findByUsernameAndPassword(username, password);
         if (users.size() > 0) {
             setUser(users.get(0));
+            return (users.get(0).getId());
         }
-        
-        return (users.size() > 0);
+
+        return (-1);
     }
 
     public UserInfo saveUser(UserInfo user) {
@@ -168,5 +169,5 @@ public class UnifiedService {
         trackerDataRepository.deleteById(id);
     }
 
-    
+
 }

@@ -52,14 +52,14 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<?> verifyUser(@RequestBody UserCredentials user) {
-        boolean isValid = unifiedService.verifyUser(user.getUsername(), user.getPassword());
+        int isValid = unifiedService.verifyUser(user.getUsername(), user.getPassword());
         System.out.println("Pass " + user.getUsername() + user.getPassword());
-        if (isValid) {
+        if (isValid != -1) {
             System.out.println("Passed");
-            return ResponseEntity.ok("success");
+            return ResponseEntity.ok(isValid);
         } else {
             System.out.println("Failed");
-            return ResponseEntity.ok("failed");
+            return ResponseEntity.ok(-1);
         }
     }
 
