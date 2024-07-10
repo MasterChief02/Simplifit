@@ -12,22 +12,23 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    // sample user login info (replace with actual authentication logic)
-    const validUsername = 'user';
-    const validPassword = 'password';
-
-    if (username === validUsername && password === validPassword) {
-      // Successful login logic (redirect or set session, etc.)
-      alert('Login Successful!');
-      setError('');
-      setUsername('');
-      setPassword('');
-      const response = await axios.post('http://localhost:8080/api/users', { username, password });
-      console.log (response)
-      navigate('/navigation', { state: { username: validUsername } });
-    } else {
-      setError('Invalid username or password');
+    setError('');
+  
+    try {
+      const response = await axios.post('http://localhost:8080/api/users/', { username, password });
+      
+      if (response.data === "success") {
+        // Successful login logic
+        alert('Login Successful!');
+        setUsername('');
+        setPassword('');
+        navigate('/navigation', { state: { username: username } });
+      } else {
+        setError('Invalid username or password');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setError('An error occurred during login. Please try again.');
     }
   };
 

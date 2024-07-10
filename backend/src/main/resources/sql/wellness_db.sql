@@ -24,7 +24,7 @@ CREATE TABLE user_cred (
 CREATE TABLE user_info (
     i INT AUTO_INCREMENT PRIMARY Key,  -- Unique identifier for each user
     -- Foreign key (id) references user_cred(id),
-    id int,
+    id int unique,
     referred_by VARCHAR(100),
     coach VARCHAR(100),
     date DATE NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE health_metrics (
     arms_skm DECIMAL(5, 2) NOT NULL CHECK (arms_skm >= 0),  -- Ensures arms SKM is a non-negative number
     legs_sf DECIMAL(5, 2) NOT NULL CHECK (legs_sf >= 0),  -- Ensures legs SF is a non-negative number
     legs_skm DECIMAL(5, 2) NOT NULL CHECK (legs_skm >= 0),  -- Ensures legs SKM is a non-negative number
-    FOREIGN KEY (user_id) REFERENCES user_info(id) ON DELETE CASCADE  -- Foreign key referencing general_info
+    FOREIGN KEY (user_id) REFERENCES user_info(i) ON DELETE CASCADE  -- Foreign key referencing general_info
 );
 
 -- Create the personal_evaluation table
@@ -94,7 +94,7 @@ CREATE TABLE personal_evaluation (
     skin_problem BOOLEAN DEFAULT FALSE,  -- Sets default value to FALSE
     regular_medication BOOLEAN DEFAULT FALSE,  -- Sets default value to FALSE
     medication_for_what VARCHAR(255),
-    FOREIGN KEY (user_id) REFERENCES user_info(id) ON DELETE CASCADE  -- Foreign key referencing general_info
+    FOREIGN KEY (user_id) REFERENCES user_info(i) ON DELETE CASCADE  -- Foreign key referencing general_info
 );
 
 -- Create the body_measurements table
@@ -109,7 +109,7 @@ CREATE TABLE body_measurements (
     hips DECIMAL(5, 2) NOT NULL CHECK (hips > 0),  -- Ensures hips measurement is a positive number
     arms_upper DECIMAL(5, 2) NOT NULL CHECK (arms_upper > 0),  -- Ensures upper arms measurement is a positive number
     arms_lower DECIMAL(5, 2) NOT NULL CHECK (arms_lower > 0),  -- Ensures lower arms measurement is a positive number
-    FOREIGN KEY (user_id) REFERENCES user_info(id) ON DELETE CASCADE  -- Foreign key referencing general_info
+    FOREIGN KEY (user_id) REFERENCES user_info(i) ON DELETE CASCADE  -- Foreign key referencing general_info
 );
 
 
@@ -119,7 +119,6 @@ CREATE TABLE tracker_data (
     date DATE NOT NULL,
     steps INT,
     calories INT,
-    water_intake DECIMAL(5, 2), 
-    PRIMARY KEY (user_id, date) 
+    water_intake DECIMAL(5, 2),
+    CONSTRAINT unique_user_date UNIQUE (user_id, date)
 );
-

@@ -13,10 +13,6 @@ public class UserInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long i;
 
-    @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
-    private UserCredentials id;
-
     @Column(name = "referred_by")
     private String referredBy;
 
@@ -67,15 +63,6 @@ public class UserInfo {
 
     public void setI(Long id) {
         this.i = id;
-    }
-
-
-    public UserCredentials getId() {
-        return id;
-    }
-
-    public void setId(UserCredentials id) {
-        this.id = id;
     }
 
     public String getReferredBy() {
