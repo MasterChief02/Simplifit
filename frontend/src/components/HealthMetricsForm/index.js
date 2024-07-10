@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
 import './Form.css';
 import CarouselForm from './CarouselForm';
+
 
 const InfoForm = () => {
   const navigate = useNavigate();
@@ -10,6 +11,13 @@ const InfoForm = () => {
   const handleGoBack = () => {
     navigate(-1);
   };
+
+  useEffect(() => {
+    const storedId = localStorage.getItem('id');
+    if (storedId === '-1') {
+      navigate('/');
+    }
+  }, [navigate]);
 
   return (
     <div className="form-wrapper">
@@ -19,8 +27,8 @@ const InfoForm = () => {
           className="py-4 px-5 shadow-lg form-res-box bg-white rounded-4"
         >
           <Button
-            variant="outline-secondary" 
-            onClick={handleGoBack} 
+            variant="outline-secondary"
+            onClick={handleGoBack}
             className="mb-3"
           >
             &larr; Back

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
 import './WellnessData.css';
 import HealthMetrics from './HealthMetrics';
 import BodyMeasurements from './BodyMeasurements';
 import PersonalEvaluation from './PersonalEvaluation';
+
 
 const WellnessData = () => {
   const navigate = useNavigate();
@@ -13,15 +14,22 @@ const WellnessData = () => {
     navigate(-1);
   };
 
+  useEffect(() => {
+    const storedId = localStorage.getItem('id');
+    if (storedId === '-1') {
+      navigate('/');
+    }
+  }, [navigate]);
+
   return (
     <div className="user-data-wrapper">
       <header className="user-data-header">SimpliFit: it's Simple to be Fit</header>
       <Container fluid className="user-data-container">
         <div className="py-4 px-3 shadow-lg user-data-res-box bg-white rounded-4">
           <div className='d-flex'>
-            <Button 
-              variant="outline-secondary" 
-              onClick={handleGoBack} 
+            <Button
+              variant="outline-secondary"
+              onClick={handleGoBack}
               className="mb-3"
             >
               &larr; Back
