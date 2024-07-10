@@ -168,5 +168,18 @@ public class UnifiedService {
         trackerDataRepository.deleteById(id);
     }
 
+    public TrackerData updateTrackerData(Long id, TrackerData newData) {
+        Optional<TrackerData> existingDataOptional = trackerDataRepository.findById(id);
+        if (existingDataOptional.isPresent()) {
+            TrackerData existingData = existingDataOptional.get();
+            existingData.setSteps(newData.getSteps());
+            existingData.setCalories(newData.getCalories());
+            existingData.setWaterIntake(newData.getWaterIntake());
+            return trackerDataRepository.save(existingData);
+        } else {
+            throw new RuntimeException("TrackerData not found with id " + id);
+        }
+    }
+
     
 }

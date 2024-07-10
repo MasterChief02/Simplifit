@@ -44,4 +44,14 @@ public class TrackerDataController {
         unifiedService.deleteTrackerData(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TrackerData> updateTrackerData(@PathVariable Long id, @RequestBody TrackerData trackerData) {
+        try {
+            TrackerData updatedTrackerData = unifiedService.updateTrackerData(id, trackerData);
+            return ResponseEntity.ok(updatedTrackerData);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

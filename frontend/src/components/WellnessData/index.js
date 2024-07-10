@@ -22,7 +22,7 @@ const WellnessData = () => {
     const file = event.target.files[0];
     if (file) {
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append('file', file);
 
       try {
         const response = await axios.post('http://localhost:8080/images/upload', formData, {
