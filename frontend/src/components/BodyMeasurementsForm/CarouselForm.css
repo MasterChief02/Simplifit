@@ -1,5 +1,7 @@
 .green-carousel .carousel-indicators button {
     background-color: #4caf50;
+    justify-content: center;
+    
 }
 
 .green-carousel .carousel-control-prev,
@@ -23,10 +25,11 @@
 
 h3 {
     color: #2e7d32;
+    text-align: center;
 }
 
 .scrollable-carousel-item {
-    max-height: 60vh;
+    height: 300px;
     overflow-y: auto;
 }
   

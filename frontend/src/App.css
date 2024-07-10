@@ -38,11 +38,5 @@
 }
 
 .form-res-box {
-  min-width: 400px;
-}
-
-@media screen and (min-width: 768px) {
-  .form-res-box {
-      width: 440px;
-  }
+  width: 800px;
 }
