@@ -22,7 +22,7 @@ const Navigation = () => {
             className="nav-button" 
             onClick={() => navigate('/hmf')}
           >
-            Health Metrics Form
+            Health   Metrics   Form
           </Button>
           <Button 
             className="nav-button" 
@@ -35,6 +35,12 @@ const Navigation = () => {
             onClick={() => navigate('/wellness')}
           >
             See your Wellness Data here
+          </Button>
+          <Button
+            className="nav-button"
+            onClick={() => navigate('/trackers')}
+          >
+            Trackers
           </Button>
         </div>
       </Container>

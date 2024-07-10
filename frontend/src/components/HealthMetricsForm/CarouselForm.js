@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Carousel, Form, Button, InputGroup, Alert } from 'react-bootstrap';
 import './CarouselForm.css';
 import axios from 'axios';
@@ -27,6 +27,17 @@ function CarouselForm() {
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
+
+  useEffect(() => {
+    if (formData.weight && formData.height) {
+      const weightKg = parseFloat(formData.weight);
+      const heightM = parseFloat(formData.height);
+      if (!isNaN(weightKg) && !isNaN(heightM) && heightM > 0) {
+        const bmi = (weightKg / (heightM * heightM)).toFixed(2);
+        setFormData(prevData => ({ ...prevData, bmi }));
+      }
+    }
+  }, [formData.weight, formData.height]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -101,7 +112,7 @@ function CarouselForm() {
     </Form.Group>
   );
 
-  const renderNumberInput = (name, label, unit) => (
+  const renderNumberInput = (name, label, unit, readOnly = false) => (
     <Form.Group className="mb-3">
       <Form.Label>{label}</Form.Label>
       <InputGroup className='mx-auto'>
@@ -112,6 +123,7 @@ function CarouselForm() {
           onChange={handleChange}
           className='text-start'
           isInvalid={!!errors[name]}
+          readOnly={readOnly}
         />
         {unit && <InputGroup.Text className='form-unit'>{unit}</InputGroup.Text>}
         <Form.Control.Feedback type="invalid">
@@ -140,12 +152,13 @@ function CarouselForm() {
         touch={false}
       >
         <Carousel.Item className='mb-5'>
-          <h3 className="text-success">Health Metrics</h3>
-          {renderNumberInput('bodyAge', 'Body Age')}
-          {renderNumberInput('weight', 'Weight', 'kg')}
-          {renderNumberInput('bmi', 'BMI', 'kg/m2')}
-          {renderNumberInput('rmKcal', 'RM', 'kcal')}
-        </Carousel.Item>
+        <h3 className="text-success">Health Metrics</h3>
+        {renderNumberInput('bodyAge', 'Body Age')}
+        {renderNumberInput('weight', 'Weight', 'kg')}
+        {renderNumberInput('height', 'Height', 'm')}
+        {renderNumberInput('bmi', 'BMI', 'kg/m2', true)}
+        {renderNumberInput('rmKcal', 'RM', 'kcal')}
+      </Carousel.Item>
 
         <Carousel.Item className='mb-5'>
           <div className="scrollable-carousel-item">
