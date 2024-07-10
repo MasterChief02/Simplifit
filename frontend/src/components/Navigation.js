@@ -38,7 +38,7 @@ const Navigation = () => {
           </Button>
           <Button
             className="nav-button"
-            onClick={() => navigate('/trackers')}
+            onClick={() => navigate('/tracker')}
           >
             Trackers
           </Button>

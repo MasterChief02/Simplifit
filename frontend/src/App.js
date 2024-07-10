@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigation from './components/Navigation';
 import './App.css'
 import WellnessData from './components/WellnessData';
+import Tracker from './components/Tracker';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/pef" element={<PersonalEvaluationForm />} />
         <Route path="/wellness" element={<WellnessData />} />
         <Route path="/navigation" element={<Navigation />} />
+        <Route path="/tracker" element={<Tracker />} />
       </Routes>
     </Router>
   );
