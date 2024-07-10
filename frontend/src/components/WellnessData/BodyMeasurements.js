@@ -9,7 +9,7 @@ const BodyMeasurements = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/bodymeasurements');
-        const userMeasurements = response.data.filter(measurement => measurement.user.id === 1)
+        const userMeasurements = response.data.filter(measurement => measurement.user.i === 1)
           .sort((a, b) => new Date(b.date) - new Date(a.date));
         setMeasurements(userMeasurements);
       } catch (error) {
@@ -25,7 +25,7 @@ const BodyMeasurements = () => {
       {measurements.length > 0 && (
         <Card className="mb-4 border-success">
           <Card.Header className="bg-success text-white">
-            <h2>{measurements[0].user.name}'s Body Measurements</h2>
+            <h2>Body Measurements</h2>
           </Card.Header>
           <Card.Body>
             <Table striped bordered hover responsive>

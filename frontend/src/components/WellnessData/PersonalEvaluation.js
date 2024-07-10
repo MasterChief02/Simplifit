@@ -9,7 +9,7 @@ const PersonalEvaluation = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/personalevaluation');
-        const userEvaluation = response.data.find(item => item.user.id === 1);
+        const userEvaluation = response.data.filter(evaluation => evaluation.user.i === 1).slice(-1)[0];
         setEvaluation(userEvaluation);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -26,7 +26,7 @@ const PersonalEvaluation = () => {
   return (
     <Card className="mb-4 border-success">
       <Card.Header className="bg-success text-white">
-        <h2>{evaluation.user.name}'s Personal Evaluation</h2>
+        <h2>Personal Evaluation</h2>
       </Card.Header>
       <Card.Body>
         <ListGroup variant="flush">

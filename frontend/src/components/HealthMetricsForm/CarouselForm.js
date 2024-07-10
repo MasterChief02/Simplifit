@@ -54,7 +54,7 @@ function CarouselForm() {
       try {
         const response = await axios.post('http://localhost:8080/api/healthmetrics', {
           user: {
-            id: 1
+            i: 1
           },
           date: new Date().toISOString().split('T')[0],
           ...formData

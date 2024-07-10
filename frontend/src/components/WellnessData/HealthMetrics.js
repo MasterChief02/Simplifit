@@ -9,7 +9,7 @@ const HealthMetrics = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/healthmetrics');
-        const userMetrics = response.data.filter(metric => metric.user.id === 1)
+        const userMetrics = response.data.filter(metric => metric.user.i === 1)
           .sort((a, b) => new Date(b.date) - new Date(a.date));
         setMetrics(userMetrics);
       } catch (error) {
@@ -25,7 +25,7 @@ const HealthMetrics = () => {
       {metrics.length > 0 && (
         <Card className="mb-4 border-success">
           <Card.Header className="bg-success text-white">
-            <h2>{metrics[0].user.name}'s Health Metrics</h2>
+            <h2>Health Metrics</h2>
           </Card.Header>
           <Card.Body>
             <Table striped bordered hover responsive>

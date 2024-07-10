@@ -46,7 +46,7 @@ function CarouselForm() {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:8080/api/personalevaluation', {
-        user: { id: 5 },
+        user: { i: 1 },
         ...formData
       });
       console.log('Form submitted:', response.data);
